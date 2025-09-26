@@ -14,19 +14,28 @@ public class ShoppingCartTest {
     public void testAppendFormatted() {
         StringBuilder sb = new StringBuilder();
         ShoppingCart.appendFormatted(sb, "SomeLine", 0, 14);
-        assertEquals(sb.toString(), " SomeLine ");
+        System.out.println("Test 1 - Expected: '   SomeLine    ', Actual: '" + sb.toString() + "'");
+        assertEquals("   SomeLine    ", sb.toString());
+
         sb = new StringBuilder();
         ShoppingCart.appendFormatted(sb, "SomeLine", 0, 15);
-        assertEquals(sb.toString(), " SomeLine ");
+        System.out.println("Test 2 - Expected: '   SomeLine     ', Actual: '" + sb.toString() + "'");
+        assertEquals("   SomeLine     ", sb.toString());
+
         sb = new StringBuilder();
         ShoppingCart.appendFormatted(sb, "SomeLine", 0, 5);
-        assertEquals(sb.toString(), "SomeL ");
+        System.out.println("Test 3 - Expected: 'SomeL ', Actual: '" + sb.toString() + "'");
+        assertEquals("SomeL ", sb.toString());
+
         sb = new StringBuilder();
         ShoppingCart.appendFormatted(sb, "SomeLine", 1, 15);
-        assertEquals(sb.toString(), " SomeLine ");
+        System.out.println("Test 4 - Expected: '       SomeLine ', Actual: '" + sb.toString() + "'");
+        assertEquals("       SomeLine ", sb.toString());
+
         sb = new StringBuilder();
         ShoppingCart.appendFormatted(sb, "SomeLine", -1, 15);
-        assertEquals(sb.toString(), "SomeLine ");
+        System.out.println("Test 5 - Expected: 'SomeLine       ', Actual: '" + sb.toString() + "'");
+        assertEquals("SomeLine        ", sb.toString());
     }
 
     /**

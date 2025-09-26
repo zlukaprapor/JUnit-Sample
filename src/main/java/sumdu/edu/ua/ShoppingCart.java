@@ -159,19 +159,41 @@ public class ShoppingCart{
      */
     public static void appendFormatted(StringBuilder sb, String value, int align, int width){
         if (value.length() > width)
-            value = value.substring(0,width);
-        int before = (align == 0)
-                ? (width - value.length()) / 2
-                : (align == -1) ? 0 : width - value.length();
-        int after = width - value.length() - before;
-        while (before-- > 0)
-            sb.append(" ");
-        sb.append(value);
-        while (after-- > 0)
-            sb.append(" ");
-        sb.append(" ");
-    }
+            value = value.substring(0, width);
 
+        int before, after;
+
+        if (align == 0) { // центрирование
+            before = (width - value.length()) / 2;
+            after = width - value.length() - before;
+        } else if (align == -1) { // выравнивание по левому краю
+            before = 0;
+            after = width - value.length();
+        } else { // align == 1, выравнивание по правому краю
+            before = width - value.length();
+            after = 0;
+        }
+
+        // Отладочная информация
+        System.out.println("DEBUG: value='" + value + "', align=" + align + ", width=" + width);
+        System.out.println("DEBUG: before=" + before + ", after=" + after);
+
+        // Добавляем пробелы до строки
+        for (int i = 0; i < before; i++)
+            sb.append(" ");
+
+        // Добавляем саму строку
+        sb.append(value);
+
+        // Добавляем пробелы после строки
+        for (int i = 0; i < after; i++)
+            sb.append(" ");
+
+        // Добавляем один дополнительный пробел в конце ВСЕГДА
+        sb.append(" ");
+
+        System.out.println("DEBUG: result='" + sb.toString() + "', length=" + sb.toString().length());
+    }
     /**
      * Calculates item's discount.
      * For NEW item discount is 0%;
