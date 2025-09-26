@@ -29,7 +29,6 @@ public class ShoppingCartTest {
         assertEquals(sb.toString(), "SomeLine ");
     }
 
-
     /**
      * Test of calculateDiscount method, of class ShoppingCart.
      */
@@ -65,6 +64,4 @@ public class ShoppingCartTest {
         assertEquals(0, ShoppingCart.calculateDiscount(
                 ShoppingCart.ItemType.SECOND_FREE, 1));
     }
-
 }
-
