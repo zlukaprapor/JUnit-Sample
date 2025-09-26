@@ -65,30 +65,35 @@ public class ShoppingCart{
     public String formatTicket(){
         if (items.size() == 0)
             return "No items.";
-        List<String[]> lines = new ArrayList<String[]>();
-        String[] header = {"#","Item","Price","Quan.","Discount","Total"};
-        int[] align = new int[] { 1, -1, 1, 1, 1, 1 };
 
-        // formatting each line
+        double total = calculateItemsParameters();
+        return getFormattedTicketTable(total);
+    }
+
+    /**
+     * Calculates discount and total price for each item and returns overall total
+     */
+    private double calculateItemsParameters() {
         double total = 0.00;
-        int index = 0;
-
         for (Item item : items) {
             item.setDiscount(calculateDiscount(item.getItemType(), item.getQuantity()));
             item.setTotalPrice(item.getPrice() * item.getQuantity() * (100.00 - item.getDiscount()) / 100.00);
-            lines.add(new String[]{
-                    String.valueOf(++index),
-                    item.getTitle(),
-                    MONEY.format(item.getPrice()),
-                    String.valueOf(item.getQuantity()),
-                    (item.getDiscount() == 0) ? "-" : (String.valueOf(item.getDiscount()) + "%"),
-                    MONEY.format(item.getTotalPrice())
-            });
             total += item.getTotalPrice();
         }
+        return total;
+    }
 
-        String[] footer = { String.valueOf(index),"","","","",
+    /**
+     * Formats and returns the ticket table
+     */
+    private String getFormattedTicketTable(double total) {
+        String[] header = {"#","Item","Price","Quan.","Discount","Total"};
+        int[] align = new int[] { 1, -1, 1, 1, 1, 1 };
+
+        List<String[]> lines = convertItemsToTableLines();
+        String[] footer = { String.valueOf(items.size()),"","","","",
                 MONEY.format(total) };
+
         // formatting table
         // column max length
         int[] width = new int[]{0,0,0,0,0,0};
@@ -122,6 +127,25 @@ public class ShoppingCart{
         // footer
         appendFormattedLine(sb, footer, align, width, false);
         return sb.toString();
+    }
+
+    /**
+     * Converts items to table lines for formatting
+     */
+    private List<String[]> convertItemsToTableLines() {
+        List<String[]> lines = new ArrayList<String[]>();
+        int index = 0;
+        for (Item item : items) {
+            lines.add(new String[]{
+                    String.valueOf(++index),
+                    item.getTitle(),
+                    MONEY.format(item.getPrice()),
+                    String.valueOf(item.getQuantity()),
+                    (item.getDiscount() == 0) ? "-" : (String.valueOf(item.getDiscount()) + "%"),
+                    MONEY.format(item.getTotalPrice())
+            });
+        }
+        return lines;
     }
 
     // --- private section -----------------------------------------------------
